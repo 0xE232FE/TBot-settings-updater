@@ -1,0 +1,68 @@
+name: Snapshot
+
+on: [workflow_dispatch, push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Setup Version ID
+      run: |
+        SNAP_VERSION=`git describe --tags --abbrev=0` || SNAP_VERSION="`git rev-parse --short HEAD`" ; echo "SNAP_VERSION=$SNAP_VERSION" >> $GITHUB_ENV
+    - name: Setup GO
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22.2'
+    - name: Build tbot-migrationtool win64
+      env:
+        GOOS: windows
+        GOARCH: amd64
+      run: |
+        cd ${{ github.workspace }}
+        go build -o tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.exe .
+        mkdir -p release/win64
+        mv tbot-settings-migrationtool_* ${{ github.workspace }}/release/win64
+        cd release/win64
+        tar -cvf tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.tar *
+    - name: Upload win64
+      uses: actions/upload-artifact@v4
+      with:
+        name: tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_windows_amd64.tar.gz
+        path: ${{ github.workspace }}/release/win64/tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_windows_amd64.tar
+
+    - name: Build tbot-migrationtool linux arm64
+      env:
+        GOOS: linux
+        GOARCH: arm64
+      run: |
+        cd ${{ github.workspace }}
+        go build -o tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.exe .
+        mkdir -p release/arm64
+        mv tbot-settings-migrationtool_* ${{ github.workspace }}/release/arm64
+        cd release/arm64
+        tar -cvf tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.tar *
+    - name: Upload linux arm64
+      uses: actions/upload-artifact@v4
+      with:
+        name: tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_linux_arm64.tar.gz
+        path: ${{ github.workspace }}/release/arm64/tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_linux_arm64.tar
+
+    - name: Build tbot-migrationtool linux amd64
+      env:
+        GOOS: linux
+        GOARCH: amd64
+      run: |
+        cd ${{ github.workspace }}
+        go build -o tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.exe .
+        mkdir -p release/amd64
+        mv tbot-settings-migrationtool_* ${{ github.workspace }}/release/amd64
+        cd release/amd64
+        tar -cvf tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.tar *
+    - name: Upload linux amd64
+      uses: actions/upload-artifact@v4
+      with:
+        name: tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_linux_amd64.tar.gz
+        path: ${{ github.workspace }}/release/amd64/tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_linux_amd64.tar
