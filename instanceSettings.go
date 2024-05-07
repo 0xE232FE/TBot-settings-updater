@@ -164,8 +164,8 @@ type InstanceSetting struct {
 			MaxBasePopulationBuilding int `json:"MaxBasePopulationBuilding"`
 			MaxBaseFoodBuilding       int `json:"MaxBaseFoodBuilding"`
 			MaxBaseTechBuilding       int `json:"MaxBaseTechBuilding"`
-			MaxBuilding4              int `json:"MaxBuilding4"`
-			MaxBuilding5              int `json:"MaxBuilding5"`
+			MaxT2Building             int `json:"MaxT2Building"`
+			MaxT3Building             int `json:"MaxT3Building"`
 			MaxBuilding6              int `json:"MaxBuilding6"`
 			MaxBuilding7              int `json:"MaxBuilding7"`
 			MaxBuilding8              int `json:"MaxBuilding8"`
