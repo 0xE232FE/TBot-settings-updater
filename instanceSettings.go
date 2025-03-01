@@ -99,18 +99,35 @@ type InstanceSetting struct {
 		} `json:"Alarm"`
 	} `json:"Defender"`
 	Brain struct {
-		Active     bool `json:"Active"`
-		Transports struct {
-			Active         bool   `json:"Active"`
-			CargoType      string `json:"CargoType"`
-			DeutToLeave    int    `json:"DeutToLeave"`
-			RoundResources bool   `json:"RoundResources"`
-			Origin         struct {
+		Active            bool `json:"Active"`
+		SlotPriorityLevel int  `json:"SlotPriorityLevel"`
+		Transports        struct {
+			Active                  bool   `json:"Active"`
+			CargoType               string `json:"CargoType"`
+			DeutToLeave             int    `json:"DeutToLeave"`
+			RoundResources          bool   `json:"RoundResources"`
+			SendToTheMoonIfPossible bool   `json:"SendToTheMoonIfPossible"`
+			Origin                  struct {
 				Galaxy   int    `json:"Galaxy"`
 				System   int    `json:"System"`
 				Position int    `json:"Position"`
 				Type     string `json:"Type"`
 			} `json:"Origin"`
+			MaxSlots                                          int  `json:"MaxSlots"`
+			CheckMoonOrPlanetFirst                            bool `json:"CheckMoonOrPlanetFirst"`
+			DoMultipleTransportIsNotEnoughShipButSamePosition bool `json:"DoMultipleTransportIsNotEnoughShipButSamePosition"`
+			MultipleOrigins                                   struct {
+				Active                          bool `json:"Active"`
+				OnlyFromMoons                   bool `json:"OnlyFromMoons"`
+				MinimumResourcesToSend          int  `json:"MinimumResourcesToSend"`
+				PriorityToProximityOverQuantity bool `json:"PriorityToProximityOverQuantity"`
+				Exclude                         []struct {
+					Galaxy   int    `json:"Galaxy"`
+					System   int    `json:"System"`
+					Position int    `json:"Position"`
+					Type     string `json:"Type"`
+				} `json:"Exclude"`
+			} `json:"MultipleOrigins"`
 		} `json:"Transports"`
 		AutoMine struct {
 			Active     bool `json:"Active"`
@@ -283,6 +300,7 @@ type InstanceSetting struct {
 				Position int    `json:"Position"`
 				Type     string `json:"Type"`
 			} `json:"Target"`
+			TargetAssociateMoon     bool   `json:"TargetAssociateMoon"`
 			CargoType               string `json:"CargoType"`
 			RandomOrder             bool   `json:"RandomOrder"`
 			SkipIfIncomingTransport bool   `json:"SkipIfIncomingTransport"`
@@ -303,6 +321,8 @@ type InstanceSetting struct {
 	} `json:"Brain"`
 	Expeditions struct {
 		Active                  bool   `json:"Active"`
+		SlotPriorityLevel       int    `json:"SlotPriorityLevel"`
+		IgnoreSleep             bool   `json:"IgnoreSleep"`
 		MinWaitNextFleet        int    `json:"MinWaitNextFleet"`
 		MaxWaitNextFleet        int    `json:"MaxWaitNextFleet"`
 		PrimaryShip             string `json:"PrimaryShip"`
@@ -339,9 +359,10 @@ type InstanceSetting struct {
 		} `json:"Origin"`
 	} `json:"Expeditions"`
 	AutoFarm struct {
-		Active       bool `json:"Active"`
-		ExcludeMoons bool `json:"ExcludeMoons"`
-		ScanRange    []struct {
+		Active            bool `json:"Active"`
+		SlotPriorityLevel int  `json:"SlotPriorityLevel"`
+		ExcludeMoons      bool `json:"ExcludeMoons"`
+		ScanRange         []struct {
 			Galaxy      int `json:"Galaxy"`
 			StartSystem int `json:"StartSystem"`
 			EndSystem   int `json:"EndSystem"`
@@ -388,8 +409,9 @@ type InstanceSetting struct {
 		CheckIntervalMax          int  `json:"CheckIntervalMax"`
 	} `json:"AutoHarvest"`
 	AutoColonize struct {
-		Active bool `json:"Active"`
-		Origin struct {
+		Active            bool `json:"Active"`
+		SlotPriorityLevel int  `json:"SlotPriorityLevel"`
+		Origin            struct {
 			Galaxy   int    `json:"Galaxy"`
 			System   int    `json:"System"`
 			Position int    `json:"Position"`
@@ -421,8 +443,9 @@ type InstanceSetting struct {
 		CheckIntervalMax int  `json:"CheckIntervalMax"`
 	} `json:"AutoColonize"`
 	AutoDiscovery struct {
-		Active bool `json:"Active"`
-		Origin struct {
+		Active            bool `json:"Active"`
+		SlotPriorityLevel int  `json:"SlotPriorityLevel"`
+		Origin            struct {
 			Galaxy   int    `json:"Galaxy"`
 			System   int    `json:"System"`
 			Position int    `json:"Position"`
