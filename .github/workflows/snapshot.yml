@@ -66,3 +66,37 @@ jobs:
       with:
         name: tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_linux_amd64.tar.gz
         path: ${{ github.workspace }}/release/amd64/tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_linux_amd64.tar
+
+    - name: Build tbot-migrationtool darwin amd64
+      env:
+        GOOS: darwin
+        GOARCH: amd64
+      run: |
+        cd ${{ github.workspace }}
+        go build -o tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.exe .
+        mkdir -p release/osx64
+        mv tbot-settings-migrationtool_* ${{ github.workspace }}/release/amd64
+        cd release/osx64
+        tar -cvf tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.tar *
+    - name: Upload darwin amd64
+      uses: actions/upload-artifact@v4
+      with:
+        name: tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_darwin_amd64.tar.gz
+        path: ${{ github.workspace }}/release/osx64/tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_darwin_amd64.tar
+
+    - name: Build tbot-migrationtool darwin arm64
+      env:
+        GOOS: darwin
+        GOARCH: arm64
+      run: |
+        cd ${{ github.workspace }}
+        go build -o tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.exe .
+        mkdir -p release/osxarm64
+        mv tbot-settings-migrationtool_* ${{ github.workspace }}/release/osxarm64
+        cd release/osxarm64
+        tar -cvf tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.tar *
+    - name: Upload darwin arm64
+      uses: actions/upload-artifact@v4
+      with:
+        name: tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_darwin_arm64.tar.gz
+        path: ${{ github.workspace }}/release/osxarm64/tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_darwin_arm64.tar
