@@ -75,7 +75,7 @@ jobs:
         cd ${{ github.workspace }}
         go build -o tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.exe .
         mkdir -p release/osx64
-        mv tbot-settings-migrationtool_* ${{ github.workspace }}/release/amd64
+        mv tbot-settings-migrationtool_* ${{ github.workspace }}/release/osx64
         cd release/osx64
         tar -cvf tbot-settings-migrationtool_${{ env.SNAP_VERSION }}_${GOOS}_${GOARCH}.tar *
     - name: Upload darwin amd64
